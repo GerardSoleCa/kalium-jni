@@ -14,9 +14,19 @@
 #
 LOCAL_PATH := $(call my-dir)
 
+APP_ABI := armeabi armeabi-v7a
+
 include $(CLEAR_VARS)
 LOCAL_MODULE := sodium
-LOCAL_SRC_FILES := /installs/libsodium/libsodium-android-arm/lib/libsodium.a #/installs/libsodium/libsodium-android-x86/lib/libsodium.a
+
+ifeq ($(TARGET_ARCH_ABI), armeabi)
+	LOCAL_SRC_FILES := /home/gerard/pau/libsodium/libsodium-android-arm/lib/libsodium.a
+endif
+
+ifeq ($(TARGET_ARCH_ABI), armeabi-v7a)
+	LOCAL_C_INCLUDES += /home/gerard/pau/libsodium/libsodium-android-armv7/lib/libsodium.a
+endif
+
 include $(PREBUILT_STATIC_LIBRARY)
 
 include $(CLEAR_VARS)
@@ -27,10 +37,14 @@ sodium_wrap.c
 
 LOCAL_CFLAGS   += -Wall -g -pedantic -std=c99
 
-LOCAL_C_INCLUDES += /installs/libsodium/libsodium-android-arm/include /installs/libsodium/libsodium-android-arm/include/sodium
-LOCAL_STATIC_LIBRARIES += android_native_app_glue sodium
-#LOCAL_LDLIBS += -llog -lsodium
+ifeq ($(TARGET_ARCH_ABI), armeabi)
+	LOCAL_C_INCLUDES += /home/gerard/pau/libsodium/libsodium-android-arm/include /home/gerard/pau/libsodium/libsodium-android-arm/include/sodium
+endif
 
+ifeq ($(TARGET_ARCH_ABI), armeabi-v7a)
+	LOCAL_C_INCLUDES += /home/gerard/pau/libsodium/libsodium-android-armv7/include /home/gerard/pau/libsodium/libsodium-android-armv7/include/sodium
+endif
+
+LOCAL_STATIC_LIBRARIES += android_native_app_glue sodium
 
 include $(BUILD_SHARED_LIBRARY)
-
