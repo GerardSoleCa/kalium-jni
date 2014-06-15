@@ -14,6 +14,7 @@
 #
 LOCAL_PATH := $(call my-dir)
 
+
 include $(CLEAR_VARS)
 LOCAL_MODULE := sodium
 
@@ -23,6 +24,14 @@ endif
 
 ifeq ($(TARGET_ARCH_ABI), armeabi-v7a)
 	LOCAL_SRC_FILES := ../libsodium/libsodium-android-armv7/lib/libsodium.a
+endif
+
+ifeq ($(TARGET_ARCH_ABI), x86)
+	LOCAL_SRC_FILES := ../libsodium/libsodium-android-x86/lib/libsodium.a
+endif
+
+ifeq ($(TARGET_ARCH_ABI), mips)
+	LOCAL_SRC_FILES := ../libsodium/libsodium-android-mips/lib/libsodium.a
 endif
 
 include $(PREBUILT_STATIC_LIBRARY)
@@ -41,6 +50,14 @@ endif
 
 ifeq ($(TARGET_ARCH_ABI), armeabi-v7a)
 	LOCAL_C_INCLUDES += ../libsodium/libsodium-android-armv7/include ../libsodium/libsodium-android-armv7/include/sodium
+endif
+
+ifeq ($(TARGET_ARCH_ABI), x86)
+	LOCAL_C_INCLUDES += ../libsodium/libsodium-android-x86/include ../libsodium/libsodium-android-x86/include/sodium
+endif
+
+ifeq ($(TARGET_ARCH_ABI), mips)
+	LOCAL_C_INCLUDES += ../libsodium/libsodium-android-mips/include ../libsodium/libsodium-android-mips/include/sodium
 endif
 
 LOCAL_STATIC_LIBRARIES += android_native_app_glue sodium
